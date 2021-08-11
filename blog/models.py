@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+class PostManager(models.Manager):
+    def year_filter(self, year):
+        return self.filter(publish__year=year)
+
+
 class Post(models.Model):
 
     STATUS_CHOISES = (
@@ -21,6 +26,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOISES, default='draft')
+    objects = PostManager()
 
     class Meta:
         ordering = ('-publish',)
